@@ -1,3 +1,5 @@
+Репозиторий содержит следующие роли:
+
   Роль для разворачивания Prometheus<br>
 <li>Установка Prometheus
 <li>Добавление systemd service файла для его запуска
@@ -28,3 +30,6 @@
 <hr>
 для запуска стека:
 ansible-playbook -i inventory/hosts.yml site.yml
+
+<hr>
+версию приложения можно изменить в defaults требуемой роли
