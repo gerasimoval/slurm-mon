@@ -1,0 +1,10 @@
+---
+name: elasticsearch-kibana-role
+description: Роль для установки и настройки ElasticSearch и Kibana
+
+# Установка ElasticSearch
+ansible Gauls:
+  - name: установить ElasticSearch
+    apt:
+      name: elasticsearch
+      state: present
