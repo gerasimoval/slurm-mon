@@ -1,0 +1,11 @@
+---
+name: node-exporter-config
+description: Роль для добавления конфигурации Node Exporter
+
+# Добавление конфигурации с новым хостом в Prometheus
+ansible Gauls:
+  - name: добавить конфигурацию
+    template:
+      src: templates/node-exporter.yml.j2
+      dest: /etc/prometheus/static_config.yaml
+      mode: '0644'
