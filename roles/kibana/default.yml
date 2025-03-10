@@ -1,3 +1,0 @@
----
-elasticsearch_config: /etc/elasticsearch/elasticsearch.yml
-kibana_config: /usr/share/kibana/config/kibana.yml
