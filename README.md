@@ -9,7 +9,7 @@
 <li>Установка Node Exporter
 <li>Добавление systemd service файла для его запуска
 <li>Создание нужных пользователей и директорий с нужными правами и владельцами
-<li>Добавление в конфигурацию Prometheus нового хоста через https://prometheus.io/docs/prometheus/latest/configuration/configuration/#static_config
+<li>Добавление в конфигурацию Prometheus нового хоста
 <li>Запуск сервиса Node Exporter и релоад сервиса Prometheus при добавлении нового хоста в конфигурацию
 
 Роль для разворачивания ElasticSearch и Kibana
