@@ -66,3 +66,12 @@
     state: started
     enabled: yes
     daemon_reload: yes
+
+#for node exporter
+- name: Create targets directory
+  file:
+    path: "{{ prometheus_config_dir }}/targets"
+    state: directory
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: '0755'
