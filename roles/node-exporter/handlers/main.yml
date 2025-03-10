@@ -1,0 +1,11 @@
+---
+- name: restart node_exporter
+  systemd:
+    name: node_exporter
+    state: restarted
+
+- name: reload prometheus
+  systemd:
+    name: prometheus
+    state: reloaded
+  delegate_to: "{{ groups['prometheus'][0] }}"
