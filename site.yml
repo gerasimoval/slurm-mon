@@ -11,8 +11,14 @@
   roles:
     - node_exporter
 
-- name: Deploy ElasticSearch and Kibana
+- name: Deploy ElasticSearch & Kibana
   hosts: elastic
   become: yes
   roles:
     - elastic_kibana
+
+- name: Deploy FluentBit
+  hosts: node_exporters
+  become: yes
+  roles:
+    - fluentbit
