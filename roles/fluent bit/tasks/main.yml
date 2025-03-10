@@ -1,0 +1,60 @@
+---
+- name: Add FluentBit repository
+  get_url:
+    url: https://packages.fluentbit.io/fedora/fluent-bit.repo
+    dest: /etc/yum.repos.d/fluent-bit.repo
+  when: ansible_os_family == "RedHat"
+
+- name: Add FluentBit repository key
+  rpm_key:
+    key: https://packages.fluentbit.io/fluentbit.key
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Install FluentBit package
+  package:
+    name: fluent-bit
+    state: present
+
+- name: Create FluentBit group
+  group:
+    name: "{{ fluentbit_group }}"
+    state: present
+
+- name: Create FluentBit user
+  user:
+    name: "{{ fluentbit_user }}"
+    group: "{{ fluentbit_group }}"
+    system: yes
+    createhome: no
+
+- name: Create FluentBit configuration directory
+  file:
+    path: "{{ fluentbit_config_dir }}"
+    state: directory
+    owner: "{{ fluentbit_user }}"
+    group: "{{ fluentbit_group }}"
+    mode: '0755'
+
+- name: Configure FluentBit
+  template:
+    src: fluent-bit.conf.j2
+    dest: "{{ fluentbit_config_dir }}/fluent-bit.conf"
+    owner: "{{ fluentbit_user }}"
+    group: "{{ fluentbit_group }}"
+    mode: '0644'
+  notify: restart fluentbit
+
+- name: Install FluentBit service
+  template:
+    src: fluent-bit.service.j2
+    dest: /etc/systemd/system/fluent-bit.service
+    mode: '0644'
+  notify: restart fluentbit
+
+- name: Start and enable FluentBit
+  systemd:
+    name: fluent-bit
+    state: started
+    enabled: yes
+    daemon_reload: yes
