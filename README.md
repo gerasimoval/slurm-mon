@@ -25,5 +25,6 @@
 <li>Добавление конфигурации со сбором логов из journald и пересылкой их в установленный ElasticSearch.
 <li>Запуск сервиса
 
+<hr>
 для запуска стека:
 ansible-playbook -i inventory/hosts.yml site.yml
