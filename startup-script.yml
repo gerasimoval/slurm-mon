@@ -1,0 +1,13 @@
+---
+name: startup-script
+description: Роль для запуска сервисов при 시작 систем
+
+# Запуск сервисов
+ansible Gauls:
+  - name: запустить сервисы
+    service:
+      name: prometheus
+      node-exporter
+      elasticsearch
+      kibana
+      state: started
