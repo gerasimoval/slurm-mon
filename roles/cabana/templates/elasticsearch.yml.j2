@@ -1,0 +1,8 @@
+cluster.name: "elasticsearch-cluster"
+node.name: "{{ inventory_hostname }}"
+path.data: {{ elasticsearch_data_dir }}
+path.logs: {{ elasticsearch_log_dir }}
+network.host: {{ elasticsearch_network_host }}
+http.port: {{ elasticsearch_http_port }}
+discovery.type: single-node
+xpack.security.enabled: false
