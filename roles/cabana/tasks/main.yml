@@ -1,0 +1,124 @@
+---
+# ElasticSearch tasks
+- name: Install Java
+  package:
+    name: java-11-openjdk
+    state: present
+
+- name: Create ElasticSearch group
+  group:
+    name: "{{ elasticsearch_group }}"
+    state: present
+
+- name: Create ElasticSearch user
+  user:
+    name: "{{ elasticsearch_user }}"
+    group: "{{ elasticsearch_group }}"
+    system: yes
+    createhome: no
+
+- name: Create ElasticSearch directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ elasticsearch_user }}"
+    group: "{{ elasticsearch_group }}"
+    mode: '0755'
+  with_items:
+    - "{{ elasticsearch_install_dir }}"
+    - "{{ elasticsearch_config_dir }}"
+    - "{{ elasticsearch_data_dir }}"
+    - "{{ elasticsearch_log_dir }}"
+
+- name: Download and extract ElasticSearch
+  unarchive:
+    src: "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-{{ elasticsearch_version }}-linux-x86_64.tar.gz"
+    dest: "{{ elasticsearch_install_dir }}"
+    remote_src: yes
+    creates: "{{ elasticsearch_install_dir }}/elasticsearch-{{ elasticsearch_version }}"
+
+- name: Configure ElasticSearch
+  template:
+    src: elasticsearch.yml.j2
+    dest: "{{ elasticsearch_config_dir }}/elasticsearch.yml"
+    owner: "{{ elasticsearch_user }}"
+    group: "{{ elasticsearch_group }}"
+    mode: '0644'
+  notify: restart elasticsearch
+
+- name: Configure JVM options
+  template:
+    src: jvm.options.j2
+    dest: "{{ elasticsearch_config_dir }}/jvm.options"
+    owner: "{{ elasticsearch_user }}"
+    group: "{{ elasticsearch_group }}"
+    mode: '0644'
+  notify: restart elasticsearch
+
+- name: Install ElasticSearch service
+  template:
+    src: elasticsearch.service.j2
+    dest: /etc/systemd/system/elasticsearch.service
+    mode: '0644'
+  notify: restart elasticsearch
+
+# Kibana tasks
+- name: Create Kibana group
+  group:
+    name: "{{ kibana_group }}"
+    state: present
+
+- name: Create Kibana user
+  user:
+    name: "{{ kibana_user }}"
+    group: "{{ kibana_group }}"
+    system: yes
+    createhome: no
+
+- name: Create Kibana directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ kibana_user }}"
+    group: "{{ kibana_group }}"
+    mode: '0755'
+  with_items:
+    - "{{ kibana_install_dir }}"
+    - "{{ kibana_config_dir }}"
+
+- name: Download and extract Kibana
+  unarchive:
+    src: "https://artifacts.elastic.co/downloads/kibana/kibana-{{ kibana_version }}-linux-x86_64.tar.gz"
+    dest: "{{ kibana_install_dir }}"
+    remote_src: yes
+    creates: "{{ kibana_install_dir }}/kibana-{{ kibana_version }}"
+
+- name: Configure Kibana
+  template:
+    src: kibana.yml.j2
+    dest: "{{ kibana_config_dir }}/kibana.yml"
+    owner: "{{ kibana_user }}"
+    group: "{{ kibana_group }}"
+    mode: '0644'
+  notify: restart kibana
+
+- name: Install Kibana service
+  template:
+    src: kibana.service.j2
+    dest: /etc/systemd/system/kibana.service
+    mode: '0644'
+  notify: restart kibana
+
+- name: Start and enable ElasticSearch
+  systemd:
+    name: elasticsearch
+    state: started
+    enabled: yes
+    daemon_reload: yes
+
+- name: Start and enable Kibana
+  systemd:
+    name: kibana
+    state: started
+    enabled: yes
+    daemon_reload: yes
