@@ -1,0 +1,10 @@
+---
+name: node-exporter-role
+description: Роль для установки и настройки Node Exporter
+
+# Установка Node Exporter
+ansible Gauls:
+  - name: установить Node Exporter
+    apt:
+      name: node-exporter
+      state: present
