@@ -1,0 +1,3 @@
+---
+prometheus_target: localhost:9090
+node_exporter_config: /etc/prometheus/static_config.yaml
