@@ -10,3 +10,9 @@
   become: yes
   roles:
     - node_exporter
+
+- name: Deploy ElasticSearch and Kibana
+  hosts: elastic
+  become: yes
+  roles:
+    - elastic_kibana
