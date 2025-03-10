@@ -4,3 +4,9 @@
   become: yes
   roles:
     - prometheus
+
+- name: Deploy Node Exporter
+  hosts: node_exporters
+  become: yes
+  roles:
+    - node_exporter
