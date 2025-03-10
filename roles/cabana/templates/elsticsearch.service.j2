@@ -1,0 +1,19 @@
+[Unit]
+Description=Elasticsearch
+Documentation=https://www.elastic.co
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User={{ elasticsearch_user }}
+Group={{ elasticsearch_group }}
+ExecStart={{ elasticsearch_install_dir }}/elasticsearch-{{ elasticsearch_version }}/bin/elasticsearch
+Environment=ES_HOME={{ elasticsearch_install_dir }}/elasticsearch-{{ elasticsearch_version }}
+Environment=ES_PATH_CONF={{ elasticsearch_config_dir }}
+Environment=PID_DIR=/var/run/elasticsearch
+LimitNOFILE=65535
+LimitNPROC=4096
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
