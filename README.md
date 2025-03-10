@@ -1,6 +1,6 @@
-Роль для разворачивания Prometheus <br>
-Установка Prometheus
-Добавление systemd service файла для его запуска
+Роль для разворачивания Prometheus<br>
+<li>Установка Prometheus
+<li>Добавление systemd service файла для его запуска
 Создание нужных пользователей и директорий с нужными правами и владельцами
 Добавление конфигурации с прописанным таргетом для мониторинга самого Prometheus (см. https://prometheus.io/docs/prometheus/latest/getting_started/#configuring-prometheus-to-monitor-itself)
 Запуск и релоад сервиса при изменении глобальных параметров конфигурации (не забудьте вынести эти параметры в defaults)
