@@ -1,0 +1,15 @@
+[Unit]
+Description=Kibana
+Documentation=https://www.elastic.co
+Wants=network-online.target
+After=network-online.target elasticsearch.service
+
+[Service]
+User={{ kibana_user }}
+Group={{ kibana_group }}
+ExecStart={{ kibana_install_dir }}/kibana-{{ kibana_version }}/bin/kibana
+Environment=NODE_OPTIONS="--max-old-space-size=1800"
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
