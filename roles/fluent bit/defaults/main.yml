@@ -1,0 +1,12 @@
+fluentbit_user: fluentbit
+fluentbit_group: fluentbit
+fluentbit_config_dir: "/etc/fluent-bit"
+
+# ElasticSearch connection settings
+elasticsearch_host: "localhost"
+elasticsearch_port: 9200
+elasticsearch_index: "fluentbit"
+
+# Log settings
+systemd_filter_systemd_unit: "*"
+log_level: "info"
